@@ -144,7 +144,7 @@ h6.leader-half{margin-top:0.85714em}
 h6.trailer-half{margin-bottom:0.85714em}
 blockquote{margin-left:0;border-color:#cccccc;font-size:0.875em;line-height:1.71429em;border-left-style:solid;border-left-width:0.35714em;padding-left:1.35714em;margin-top:1.5em;margin-bottom:1.5em}
 p{margin-top:0em;margin-bottom:1.71429em;font-size:0.875em;line-height:1.71429em;margin-top:0}
-p.large{font-size:1.125em;line-height:1.33333em;margin-bottom:1.33333em; color: rgb(233, 141, 50); font-weight: bold; font-style: italic;}
+p.large{font-size:1.125em;line-height:1.33333em;margin-bottom:1.33333em;}
 p.small{font-size:0.75em;line-height:2em;margin-bottom:2em}
 a{color:#004575;text-decoration:none}
 a:hover,a:focus{color:#007ac2;cursor:pointer}
