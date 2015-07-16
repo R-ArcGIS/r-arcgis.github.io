@@ -8,9 +8,10 @@ body{margin:0}
 .larger-icon{font-size:200%;vertical-align:-.25em;padding-right:4px}
 #browse-github{color:#0078C5}
 #repo-container{padding-top: 25px}
-#home-main-text{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;padding:0 0.5em;width:100%;margin-top:4.5em;margin-bottom:1.5em;text-align:center;padding:0 0.85em;margin-bottom:2.5em}
+#home-main-text{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;padding:0 0.5em;width:100%;margin-top:2.0em;margin-bottom:1.5em;text-align:center;padding:0 0.85em}
 #home-main-text h1{font-family:"Avenir LT W01 35 Light", Arial, Helvetica, sans-serif;color:#ffffff;font-size:3.0em}
-#home-main-text p{font-size:1.125em;line-height:1.33333em;margin-top:0.75em;margin-bottom:0.75em;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;padding:0 0.5em;width:100%;font-family:"Avenir LT W01 35 Light", Arial, Helvetica, sans-serif;line-height:32px;color:#ccd0d4;margin-top:0.5em;padding-left:6em;padding-right:6em; color: rgb(233, 141, 50); font-weight: bold; font-style: italic;}
+#home-main-text p{font-size:1.125em;line-height:1.33333em;margin-top:0.75em;margin-bottom:0.75em;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;padding:0 0.5em;width:100%;font-family:"Avenir LT W01 35 Light", Arial, Helvetica, sans-serif;line-height:32px;color:#ccd0d4;margin-top:0.5em;padding-left:6em;padding-right:6em; color: rgb(233, 141, 50);}
+.slug {font-weight: bold; font-style: italic;}
 
 @media screen and (max-width: 768px){#home-main-text{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;float:left;padding:0 0.5em;width:100%}
 }
