@@ -2,7 +2,7 @@ body{margin:0}
 .smaller{padding:0px 0px}
 @media screen and (max-width: 1024px){.smaller{padding:0px 20px}
 }
-#home-banner{background:url("../img/TerrainToolsSample_HD_colorized_cub.png") repeat top right #0e1f2f;color:white;height:auto}
+#home-banner{background:url("../img/TerrainToolsSample_HD_colorized_cub.jpg") repeat top right #0e1f2f;color:white;height:auto}
 @media screen and (max-width: 1320px){#home-banner{background-position:top left}
 }
 .larger-icon{font-size:200%;vertical-align:-.25em;padding-right:4px}
