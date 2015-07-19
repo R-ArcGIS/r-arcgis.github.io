@@ -1,5 +1,5 @@
-#esri.github.com
-Landing page for all of our projects.
+#arcgis-r.github.io
+Landing page for R ArcGIS project.
 
 [License](License.txt)
 
@@ -8,7 +8,7 @@ Landing page for all of our projects.
 Anyone and everyone is welcome to contribute. Please see our [guidelines for contributing](https://github.com/esri/contributing).
 
 ## Licensing
-Copyright 2013 Esri
+Copyright 2015 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
