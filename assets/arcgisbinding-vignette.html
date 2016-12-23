@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Marjean Pobuda" />
+
+
+<title>Using the R-ArcGIS Bridge: the arcgisbinding Package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Using the R-ArcGIS Bridge: the arcgisbinding Package</h1>
+<h4 class="author"><em>Marjean Pobuda</em></h4>
+
+
+
+<p>The <strong>arcgisbinding</strong> package is designed to allow you to expand your ArcGIS workflows to include R and expand your R analysis to include rich geospatial analysis. Through the power of the R-ArcGIS Bridge, you can easily transfer data from ArcGIS to R to gain access to the wealth of statistical packages and functions that you might need to further your analysis. Once finished, the bridge allows you to transfer your data back to ArcGIS to take advantage of the mapping, publishing, and sharing aspects of ArcGIS.</p>
+<p>The functions contained within the <strong>arcgisbinding</strong> package fall into one of three categories:</p>
+<ul>
+<li><p>Basic Read/Write Functionality</p></li>
+<li><p>Converting Functionality</p></li>
+<li><p>Wrapping R Tool Functionality</p></li>
+</ul>
+<p>This vignette begins by guiding you through each category and showing you examples of how each function is primarily used. It finishes by using the R-ArcGIS Bridge to solve a spatial problem in order to demonstrate one of the many workflows possible with the use of the bridge.</p>
+<div id="basic-readwrite-functionality" class="section level2">
+<h2><em>Basic Read/Write Functionality</em></h2>
+<p>The first main use of the bridge is to transfer data from ArcGIS to R and vice versa. The functions contained in this category are elemental to initializing the bridge. When you are first getting started with the bridge, the functions that you will use most often include:</p>
+<ul>
+<li><p><code>arc.check_product()</code></p></li>
+<li><p><code>arc.open()</code></p></li>
+<li><p><code>arc.select()</code></p></li>
+<li><p><code>arc.shape()</code></p></li>
+<li><p><code>arc.shapeinfo()</code></p></li>
+<li><p><code>arc.write()</code></p></li>
+</ul>
+<p>Once you have <a href="https://github.com/R-ArcGIS/r-bridge-install">initialized the bridge connection in ArcGIS</a> and loaded the <strong>arcgisbinding</strong> library into your R workspace, you will finalize the connection between ArcGIS and R by using the <code>arc.check_product</code> function. This function does not take any arguments and will return details regarding your current ArcGIS installation and license.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arc.check_product</span>()
+<span class="co">#&gt; product: ArcGIS Pro ( 11.4.0.7076 )</span>
+<span class="co">#&gt; license: Advanced</span></code></pre></div>
+<p>After you have successfully connected ArcGIS and R, you can begin loading your data into your desired workspace. For GIS data that is currently stored in a shapefile, geodatabase, layer, or table, you will use the <code>arc.open</code> function to read it into R.</p>
+<p>The <strong>arcgisbinding</strong> package comes with some sample data which we will use for the purpose of demonstrating the functions contained in the package. The only argument of the <code>arc.open</code> function is the path location at which the data you are trying to load is stored. To easily access the path for the sample data contained within the <strong>arcgisbinding</strong> package, the <code>system.file</code> function can be used.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.path &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;ca_ozone_pts.shp&quot;</span>,
+                          <span class="dt">package=</span><span class="st">&quot;arcgisbinding&quot;</span>)
+ozone.arc.dataset &lt;-<span class="st"> </span><span class="kw">arc.open</span>(ozone.path)</code></pre></div>
+<p>The sample data is now stored in the <code>ozone.arc.dataset</code> variable which is an <code>arc.dataset</code> object of class S4. This enables you to gain easy access to your data’s metadata, such as its extent, a list of field names, and its geometry information.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.arc.dataset@extent
+<span class="co">#&gt;       xmin       ymin       xmax       ymax </span>
+<span class="co">#&gt; -2301587.7  -355613.7 -1795559.0   780085.2</span>
+ozone.arc.dataset@fields
+<span class="co">#&gt; $FID</span>
+<span class="co">#&gt; [1] &quot;OID&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Shape</span>
+<span class="co">#&gt; [1] &quot;Geometry&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $LATITUDE</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $LONGITUDE</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $ELEVATION</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $OZONE</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $X</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Y</span>
+<span class="co">#&gt; [1] &quot;Double&quot;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $text</span>
+<span class="co">#&gt; [1] &quot;String&quot;</span>
+ozone.arc.dataset@shapeinfo
+<span class="co">#&gt; type         : Point</span>
+<span class="co">#&gt; WKT          : PROJCS[&quot;USA_Contiguous_Albers_Equal_Area_Conic&quot;,GEOGCS[&quot;GCS_North_American_1983&quot;,DATUM[&quot;D_North_American_1983&quot;,SPHEROID[&quot;GRS_1980&quot;,6378137.0,298.257222101]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.0174532925199433]],PROJECTION[&quot;Albers&quot;],PARAMETER[&quot;False_Easting&quot;,0.0],PARAMETER[&quot;False_Northing&quot;,0.0],PARAMETER[&quot;Central_Meridian&quot;,-96.0],PARAMETER[&quot;Standard_Parallel_1&quot;,29.5],PARAMETER[&quot;Standard_Parallel_2&quot;,45.5],PARAMETER[&quot;Latitude_Of_Origin&quot;,37.5],UNIT[&quot;Meter&quot;,1.0]]</span>
+<span class="co">#&gt; WKID         : 102003</span></code></pre></div>
+<p>The <code>arc.select</code> function can be used to obtain your data set in an R data frame object. This function offers you the ability to choose specific attributes from your data set to work with and the ability to construct SQL queries to only bring in certain observations based on the criteria of your analysis. For example, we can select six of the nine attributes from the <code>ozone.arc.dataset</code> object and elect to examine only those observations with an elevation of 1000 meters or greater.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.dataframe &lt;-<span class="st"> </span><span class="kw">arc.select</span>(<span class="dt">object =</span> ozone.arc.dataset, <span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">&quot;FID&quot;</span>, <span class="st">&quot;Shape&quot;</span>, <span class="st">&quot;LATITUDE&quot;</span>, <span class="st">&quot;LONGITUDE&quot;</span>, <span class="st">&quot;ELEVATION&quot;</span>, <span class="st">&quot;OZONE&quot;</span>), <span class="dt">where_clause =</span> <span class="st">&quot;ELEVATION &gt;= 1000&quot;</span>)
+<span class="kw">head</span>(ozone.dataframe)
+<span class="co">#&gt;   FID LATITUDE LONGITUDE ELEVATION   OZONE</span>
+<span class="co">#&gt; 1  11  39.3302 -120.1808      1676 0.06539</span>
+<span class="co">#&gt; 2  22  38.9444 -119.9700      1905 0.07360</span>
+<span class="co">#&gt; 3  32  39.9381 -120.9413      1052 0.07999</span>
+<span class="co">#&gt; 4  42  37.8933 -119.8415      1432 0.08169</span>
+<span class="co">#&gt; 5  56  40.5397 -121.5816      1788 0.08550</span>
+<span class="co">#&gt; 6  57  37.5393 -119.6523      1280 0.08619</span></code></pre></div>
+<p>Additionally, functions like <code>arc.shapeinfo</code> and <code>arc.shape</code> are designed to get the details of what type of geometry is stored within your <code>arc.dataset</code> or <code>arc.dataframe</code>, respectively, so you can easily access that information and store it for later use. In particular, the WKT slot contains the well-known text for the spatial reference system of the object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.shapeinfo &lt;-<span class="st"> </span><span class="kw">arc.shapeinfo</span>(ozone.arc.dataset)
+ozone.shapeinfo$WKT
+<span class="co">#&gt; [1] &quot;PROJCS[\&quot;USA_Contiguous_Albers_Equal_Area_Conic\&quot;,GEOGCS[\&quot;GCS_North_American_1983\&quot;,DATUM[\&quot;D_North_American_1983\&quot;,SPHEROID[\&quot;GRS_1980\&quot;,6378137.0,298.257222101]],PRIMEM[\&quot;Greenwich\&quot;,0.0],UNIT[\&quot;Degree\&quot;,0.0174532925199433]],PROJECTION[\&quot;Albers\&quot;],PARAMETER[\&quot;False_Easting\&quot;,0.0],PARAMETER[\&quot;False_Northing\&quot;,0.0],PARAMETER[\&quot;Central_Meridian\&quot;,-96.0],PARAMETER[\&quot;Standard_Parallel_1\&quot;,29.5],PARAMETER[\&quot;Standard_Parallel_2\&quot;,45.5],PARAMETER[\&quot;Latitude_Of_Origin\&quot;,37.5],UNIT[\&quot;Meter\&quot;,1.0]]&quot;</span>
+ozone.shape &lt;-<span class="st"> </span><span class="kw">arc.shapeinfo</span>(<span class="kw">arc.shape</span>(ozone.dataframe))
+ozone.shape$WKT
+<span class="co">#&gt; [1] &quot;PROJCS[\&quot;USA_Contiguous_Albers_Equal_Area_Conic\&quot;,GEOGCS[\&quot;GCS_North_American_1983\&quot;,DATUM[\&quot;D_North_American_1983\&quot;,SPHEROID[\&quot;GRS_1980\&quot;,6378137.0,298.257222101]],PRIMEM[\&quot;Greenwich\&quot;,0.0],UNIT[\&quot;Degree\&quot;,0.0174532925199433]],PROJECTION[\&quot;Albers\&quot;],PARAMETER[\&quot;False_Easting\&quot;,0.0],PARAMETER[\&quot;False_Northing\&quot;,0.0],PARAMETER[\&quot;Central_Meridian\&quot;,-96.0],PARAMETER[\&quot;Standard_Parallel_1\&quot;,29.5],PARAMETER[\&quot;Standard_Parallel_2\&quot;,45.5],PARAMETER[\&quot;Latitude_Of_Origin\&quot;,37.5],UNIT[\&quot;Meter\&quot;,1.0]]&quot;</span></code></pre></div>
+<p>The <code>arc.write</code> function allows you to easily save your data to shapefile, geodatabase, or table. This function is often called once you have completed your work in R and need to transfer your data to ArcGIS for mapping and/or further analysis. The first argument is the path for the location of the ArcGIS project you wish to write your new results to. The second argument specifies the R object you are writing to this new location. Additional optional parameters allow you to provide the geometry type and spatial reference for your data if desired.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arc.write</span>(<span class="dt">path =</span> <span class="kw">tempfile</span>(<span class="st">&quot;ca_new&quot;</span>, <span class="dt">fileext=</span><span class="st">&quot;.shp&quot;</span>), <span class="dt">data =</span> ozone.dataframe)</code></pre></div>
+<p>The <code>arc.write</code> function has also been designed with data generation in mind. For example, the function can be used to create new features in ArcGIS as demonstrated below where the <code>arc.write</code> function creates 100 uniformly distributed points in a unit square from a normal distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arc.write</span>(<span class="dt">path =</span> <span class="kw">tempfile</span>(<span class="st">&quot;new_pts&quot;</span>, <span class="dt">fileext=</span><span class="st">&quot;.shp&quot;</span>), <span class="dt">data =</span> <span class="kw">list</span>(<span class="st">'data'</span>=<span class="kw">rnorm</span>(<span class="dv">100</span>)),
+          <span class="dt">coords =</span> <span class="kw">list</span>(<span class="dt">x=</span><span class="kw">runif</span>(<span class="dv">100</span>,<span class="dt">min=</span><span class="dv">0</span>,<span class="dt">max=</span><span class="dv">1</span>),<span class="dt">y=</span><span class="kw">runif</span>(<span class="dv">100</span>,<span class="dt">min=</span><span class="dv">0</span>,<span class="dt">max=</span><span class="dv">1</span>)),
+          <span class="dt">shape_info =</span> <span class="kw">list</span>(<span class="dt">type=</span><span class="st">'Point'</span>))</code></pre></div>
+<p>You should now have a solid understanding of how to initalize the bridge from R and to begin loading, accessing and exporting various parts of your data. The following section outlines more advanced functionality of the bridge.</p>
+</div>
+<div id="converting-functionality" class="section level2">
+<h2><em>Converting Functionality</em></h2>
+<p>After mastering the basics of moving data back and forth across the bridge, a natural next step is to begin analyzing the data. R has a temendous number of packages and methods that focus on spatial data and the attributes associated with them. As such, it is important that you know how to manipulate your data into a format that is consistent with the method itself. There are several functions in the <strong>arcgisbinding</strong> package that focus on coverting your data into a format necessary for many data analyses. These functions include:</p>
+<ul>
+<li><p><code>arc.data2sp</code></p></li>
+<li><p><code>arc.sp2data</code></p></li>
+<li><p><code>arc.shape2sp</code></p></li>
+<li><p><code>arc.fromP4ToWKt</code></p></li>
+<li><p><code>arc.fromWktToP4</code></p></li>
+<li><p><code>arc.select</code></p></li>
+</ul>
+<p>The spatial data frame object from the <strong>sp</strong> package is a common format required to run many spatial analyses in R. As such, the bridge has a pair of functions designed to convert data frames to a spatial data frame object and vice versa. Point features convert to a spatial points data frame (<code>SpatialPointsDataFrame</code>), while polygons and line features are mapped to spatial polygons and lines data frames (<code>SpatialPolygonsDataFrame</code>, <code>SpatialLinesDataFrame</code>). When a method requires that your data is in an <strong>sp</strong> format, simply call the <code>arc.data2sp</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">class</span>(ozone.dataframe)
+<span class="co">#&gt; [1] &quot;data.frame&quot; &quot;arc.data&quot;</span>
+ozone.sp.df &lt;-<span class="st"> </span><span class="kw">arc.data2sp</span>(ozone.dataframe)
+<span class="kw">class</span>(ozone.sp.df)
+<span class="co">#&gt; [1] &quot;SpatialPointsDataFrame&quot;</span>
+<span class="co">#&gt; attr(,&quot;package&quot;)</span>
+<span class="co">#&gt; [1] &quot;sp&quot;</span></code></pre></div>
+<p>Subsequently, the <code>arc.sp2data</code> function is used when you are finished performing spatial analysis and wish to convert your <strong>sp</strong> object back to a data frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.dataframe &lt;-<span class="st"> </span><span class="kw">arc.sp2data</span>(ozone.sp.df)
+<span class="kw">class</span>(ozone.dataframe)
+<span class="co">#&gt; [1] &quot;data.frame&quot; &quot;arc.data&quot;   &quot;arc.data&quot;</span></code></pre></div>
+<p>The <strong>sp</strong> data frame object allows you to index your data as if it were a regular R data framed object since they contain a slot for your data attributes. If this extra slot is not needed for your work, an alternative is to convert your data to a spatial points (<code>SpatialPoints</code>), spatial lines (<code>SpatialLines</code>), or spatial polygons (<code>SpatialPolygons</code>) object instead of a spatial data frame object. This can be accomplished with the <code>arc.shape2sp</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.sp.shape &lt;-<span class="st"> </span><span class="kw">arc.shape2sp</span>(ozone.dataframe)
+<span class="kw">class</span>(ozone.sp.shape)
+<span class="co">#&gt; [1] &quot;SpatialPoints&quot;</span>
+<span class="co">#&gt; attr(,&quot;package&quot;)</span>
+<span class="co">#&gt; [1] &quot;sp&quot;</span></code></pre></div>
+<p>The bridge also provides a straightforward framework for reprojecting your data. Two functions, <code>arc.fromP4ToWkt</code> and <code>arc.fromWktToP4</code> aid in this process by easily enabling you to obtain either the <strong>PROJ.4</strong> coordinate reference system string or the well-known text (<strong>WKT</strong>) representation string for your data. (Note: Currently these functions only work with ArcGIS Pro). The bridge offers you multiple options for obtaining your desired geometry information in the format you need. For example, you can use the shapeinfo slot of your <em>arc.dataset</em> object to get the well-known text representation string and then convert to a <strong>PROJ.4</strong> coordinate reference system string.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arc.fromWktToP4</span>(ozone.arc.dataset@shapeinfo$WKT)
+<span class="co">#&gt; [1] &quot;+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=37.5 +lon_0=-96 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs&quot;</span></code></pre></div>
+<p>The bridge also can recognize well-known IDs and convert those in a similar manner:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">arc.fromWktToP4</span>(<span class="dv">4326</span>)
+<span class="co">#&gt; [1] &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</span></code></pre></div>
+<p>The output from these functions can then be used with the <code>arc.select</code> function to reproject your data. This function contains an optional argument for specifying the spatial reference you want your data to be in. These features greatly simplfy the hassel of reprojecting your data and make it easy for you to obtain the geometry information for your data in the format you need.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ozone.dataframe &lt;-<span class="st"> </span><span class="kw">arc.select</span>(<span class="dt">object =</span> ozone.arc.dataset, <span class="dt">fields =</span> <span class="kw">c</span>(<span class="st">&quot;FID&quot;</span>, <span class="st">&quot;Shape&quot;</span>, <span class="st">&quot;LATITUDE&quot;</span>, <span class="st">&quot;LONGITUDE&quot;</span>, <span class="st">&quot;ELEVATION&quot;</span>, <span class="st">&quot;OZONE&quot;</span>), <span class="dt">where_clause =</span> <span class="st">&quot;ELEVATION &gt;= 1000&quot;</span>, <span class="dt">sr =</span> <span class="st">&quot;+proj=latlong +datum=wgs84 +no_defs&quot;</span>)
+<span class="kw">arc.shapeinfo</span>(<span class="kw">arc.shape</span>(ozone.dataframe))
+<span class="co">#&gt; type         : Point</span>
+<span class="co">#&gt; WKT          : GEOGCS[&quot;GCS_WGS_1984&quot;,DATUM[&quot;D_WGS_1984&quot;,SPHEROID[&quot;WGS_1984&quot;,6378137.0,298.257223563]],PRIMEM[&quot;Greenwich&quot;,0.0],UNIT[&quot;Degree&quot;,0.0174532925199433]]</span>
+<span class="co">#&gt; WKID         : 4326</span></code></pre></div>
+<p>The previous sections showed you how to import/export your data and convert it into an <strong>sp</strong> object so you can perform statistical analysis in R. You also learned how to use the bridge to reproject your data. The following section describes several functions that aid developers who wish to call R functionality from within ArcGIS. This will allow you to harness the full power of the geographic information system and provides an avenue to make your R code accessible to a broader audience.</p>
+</div>
+<div id="wrapping-r-tool-functionality" class="section level2">
+<h2><em>Wrapping R Tool Functionality</em></h2>
+<p>Another main use of the bridge is to wrap R tools and code into a geoprocessing script so they can be called as a tool in ArcGIS. This is useful functionality when you have functions in R that you use repeatedly and want to visualize the results on a map. It also makes it easier to share your workflows with other members of your organization that are not familiar with the R language. The <strong>arcgisbinding</strong> package contains several functions to help you design and customize the new tool you create:</p>
+<ul>
+<li><p><code>arc.env</code></p></li>
+<li><p><code>arc.progress_label</code></p></li>
+<li><p><code>arc.progress_pos</code></p></li>
+</ul>
+<p>A simple sample script has been created to demonstrate these functions. The script below defines a tool that reads in a point feature layer using the bridge, prints out some information about the data, and then outputs the data. Normally, functionality unique to R would be utilized in the body of a script but this code has been simplified to showcase the desired <strong>arcgisbinding</strong> functions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tool_exec &lt;-<span class="st"> </span>function(in_params, out_params)
+{
+  env =<span class="st"> </span><span class="kw">arc.env</span>()
+  wkspath &lt;-<span class="st"> </span>env$workspace
+  
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Printing Workspace Path...&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, wkspath, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  
+  source_dataset =<span class="st"> </span>in_params[[<span class="dv">1</span>]]
+  out_fc =<span class="st"> </span>out_params[[<span class="dv">1</span>]]
+
+  #########
+  <span class="kw">arc.progress_label</span>(<span class="st">&quot;Loading Dataset...&quot;</span>)
+  <span class="kw">arc.progress_pos</span>(<span class="dv">20</span>)
+  d &lt;-<span class="st"> </span><span class="kw">arc.open</span>(source_dataset)
+  data &lt;-<span class="st"> </span><span class="kw">arc.select</span>(d)
+  
+  #########
+  <span class="kw">arc.progress_label</span>(<span class="st">&quot;Obtaining Attribute Names...&quot;</span>)
+  <span class="kw">arc.progress_pos</span>(<span class="dv">40</span>)
+  attnames &lt;-<span class="st"> </span><span class="kw">colnames</span>(data)
+  
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Printing Attribute Names...&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, attnames, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  
+  #########
+  <span class="kw">arc.progress_label</span>(<span class="st">&quot;Obtaining Geometry Information...&quot;</span>)
+  <span class="kw">arc.progress_pos</span>(<span class="dv">60</span>)
+  data_shp &lt;-<span class="st"> </span><span class="kw">arc.shapeinfo</span>(d)
+  
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;Printing Geometry Information...&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, data_shp, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  <span class="kw">cat</span>(<span class="kw">paste0</span>(<span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;....................................&quot;</span>, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>))
+  
+  #########
+  <span class="kw">arc.progress_label</span>(<span class="st">&quot;Writing result dataset...&quot;</span>)
+  <span class="kw">arc.progress_pos</span>(<span class="dv">80</span>)
+  
+  if(!<span class="kw">is.null</span>(out_fc) &amp;&amp;<span class="st"> </span>out_fc !=<span class="st"> &quot;NA&quot;</span>)
+    <span class="kw">arc.write</span>(out_fc, data)
+
+  #########  
+  <span class="kw">arc.progress_label</span>(<span class="st">&quot;Done&quot;</span>)
+  <span class="kw">arc.progress_pos</span>(<span class="dv">100</span>)
+  <span class="kw">return</span>(out_params)
+  
+}</code></pre></div>
+<p>When working in ArcGIS, a user has the ability to customize their project environment. This includes things such as setting an output coordinate system, defining a processing extent, setting a random number seed, etc. If a user has preset some of their environment variables, this may impact the results of your R script tool. The <code>arc.env</code> function enables you to get the local ArcGIS geoprocessing tool environment settings and check to ensure they are set appropriately.</p>
+<p>At the start of our sample script tool, the geoprocessing tool environment settings are stored in the <code>env</code> variable by using the <code>arc.env</code> function. This allows for you to check a user’s settings as needed within your script. While you are unable to override a user’s local settings, you can throw a warning or error message to alert the user that they need to adjust their environments before continuing with your tool if a certain setting impacts your tool’s results.</p>
+<p>The <strong>arcgisbinding</strong> package also allows you to customize the tool run experience users have with your script through use of the <code>arc.progress_label</code> and <code>arc.progress_pos</code> functions. (Note: Currently these functions only work with ArcGIS Pro). When running a geoprocessing tool in ArcGIS, a tool run status bar appears that can display custom messages to indicate the status of the run. In addition, the tool run progress bar can be customized to appear at different levels of completion based on the current stage of the run.</p>
+<p>With the <code>arc.progress_label</code> function, you can customize what messages your users see based on where the script is at while they are running your tool. While the tool run status bar typically cotinuously moves back and forth by default, if you wish, you can customize it to appear at a certain percentage of completion by entering a value from 0 to 100 to represent the current percentage. Both of these functions are used multiple times in the sample script tool above to demonstrate how they might be used when creating a new geoprocessing script tool.</p>
+<p>The <strong>arcgisbinding</strong> package is designed to make working with R and ArcGIS side-by-side as seamless and straight-forward as possible. Functions to initialize the connection between R and ArcGIS and to read and write data are meant to be intuitive and fast. The other funtions of the <strong>arcgisbinding</strong> package were created to aid in tasks thought to be ubiquitous to most analyses. Now that you have a solid foundation in all the functionality contained within the <strong>arcgisbinding</strong> package, we will use the package to perform a spatially explicit analysis in order to demonstrate one of the workflows possible with the use of the bridge.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
