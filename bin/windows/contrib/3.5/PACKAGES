@@ -1,0 +1,12 @@
+Package: arcgisbinding
+Version: 1.0.1.239
+Depends: R (>= 3.3.2)
+Imports: methods
+Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
+License: file LICENSE
+OS_type: windows
+Archs: i386, x64
+Path: ../
+msg:- fix issue #36
+ - support GUID field
+ - support arc.open on Image Services
