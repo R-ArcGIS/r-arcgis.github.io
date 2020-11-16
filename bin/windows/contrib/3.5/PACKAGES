@@ -33,4 +33,15 @@ OS_type: windows
 Archs: i386, x64
 Path: ../
 msg: - fixed arc.check_portal() crash (Pro 2.6)
+
+Package: arcgisbinding
+Version: 1.0.1.243
+Depends: R (>= 3.5.0)
+Imports: methods
+Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
+License: file LICENSE
+OS_type: windows
+Archs: i386, x64
+Path: ../
+msg: - fixed - 'FNP error' in Conda environment.
  
