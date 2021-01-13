@@ -1,15 +1,4 @@
 Package: arcgisbinding
-Version: 1.0.1.240
-Depends: R (>= 4.0.0)
-Imports: methods
-Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
-License: file LICENSE
-OS_type: windows
-Archs: i386, x64
-msg: - fix arc.fromP4ToWkt() '+init=epsg:<N>'
- - build for R 4.0
-
-Package: arcgisbinding
 Version: 1.0.1.241
 Depends: R (>= 4.0.0)
 Imports: methods
@@ -39,4 +28,14 @@ License: file LICENSE
 OS_type: windows
 Archs: i386, x64
 msg: - fixed - 'FNP error' in Conda environment.
+ 
+Package: arcgisbinding
+Version: 1.0.1.244
+Depends: R (>= 4.0.0)
+Imports: methods
+Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
+License: file LICENSE
+OS_type: windows
+Archs: i386, x64
+msg: - support geographic datum transformations in arc.select().
  
