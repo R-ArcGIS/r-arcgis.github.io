@@ -38,3 +38,4 @@ OS_type: windows
 Archs: i386, x64
 msg: - The R version 4.0.3-4.1.x is only supported in standalone.
  If you plan to use R-based GP tools, update R to version 4.2.
+ 
