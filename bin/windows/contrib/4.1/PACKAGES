@@ -18,4 +18,15 @@ OS_type: windows
 Archs: i386, x64
 msg: - The R version 4.1.X is only supported in standalone.
  If you plan to use R-based GP tools, update R to version 4.2.
- 
+
+Package: arcgisbinding
+Version: 1.0.1.305
+Depends: R (>= 4.1.3)
+Imports: methods
+Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
+License: file LICENSE
+OS_type: windows
+Archs: i386, x64
+msg: - The R version 4.1.X is only supported in standalone.
+ If you plan to use R-based GP tools, update R to version 4.2.
+
