@@ -32,7 +32,7 @@ Path: ../
 msg: - support ArcGIS Pro 3.0.
 
 Package: arcgisbinding
-Version: 1.0.1.305
+Version: 1.0.1.306
 Depends: R (>= 3.5.0)
 Imports: methods
 Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
