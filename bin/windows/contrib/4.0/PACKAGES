@@ -40,7 +40,7 @@ msg: - The R version 4.0.3-4.1.x is only supported in standalone.
  If you plan to use R-based GP tools, update R to version 4.2.
 
 Package: arcgisbinding
-Version: 1.0.1.305
+Version: 1.0.1.306
 Depends: R (>= 4.0.2)
 Imports: methods
 Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet
