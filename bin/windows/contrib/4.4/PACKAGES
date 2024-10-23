@@ -10,7 +10,7 @@ msg: - bug fixes, support ArcGIS 3.1
 
 Package: arcgisbinding
 Version: 1.0.1.311
-Depends: R (>= 4.4.1)
+Depends: R (>= 4.4.0)
 Imports: methods
 Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet, bit64, terra
 License: file LICENSE
