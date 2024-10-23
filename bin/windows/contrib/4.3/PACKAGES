@@ -8,3 +8,13 @@ OS_type: windows
 Archs: x64
 msg: - bug fixes, support ArcGIS 3.1
 
+Package: arcgisbinding
+Version: 1.0.1.311
+Depends: R (>= 4.3.1)
+Imports: methods
+Suggests: sp, sf, raster, rgdal, dplyr, repr, htmltools, leaflet, bit64, terra
+License: file LICENSE
+OS_type: windows
+Archs: x64
+msg: - support ArcGISPro 3.4
+
