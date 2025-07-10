@@ -1,5 +1,8 @@
-#arcgis-r.github.io
-Landing page for R ArcGIS project.
+# arcgisbinding 
+
+This repository contains the binaries for the R package {arcgisbinding}.
+
+For more on the R-ArcGIS Bridge please visit [developers.arcgis.com/r-bridge](https://developers.arcgis.com/r-bridge)
 
 [License](License.txt)
 
